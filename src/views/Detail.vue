@@ -35,7 +35,7 @@
             <th>Display</th>
           </tr>
           <tr v-for="answer in answers" :key="answer.label">
-            <td>{{ answer.label }}</td>
+            <td class="w-32">{{ answer.label }}</td>
             <td>{{ answer.display }}</td>
           </tr>
         </table>
@@ -75,7 +75,8 @@ export default {
     },
 
     async getMeasure () {
-      const measure = await api.measure.getById(this.id)
+      const measureApi = new api.Measure()
+      const measure = await measureApi.getById(this.id)
       this.measure = measure
 
       // Find all relatedArtifact objects with type of 'documentation'

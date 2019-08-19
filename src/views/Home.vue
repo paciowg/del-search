@@ -11,6 +11,8 @@
       </button>
     </form>
 
+    <section v-if="loading" class="text-center">Found {{ total }} results so far...</section>
+
     <section v-if="searched && results.length">
       <table>
         <tr>
@@ -38,6 +40,7 @@ const DATA = {
   text: '',
   searched: false,
   loading: false,
+  total: 0,
   results: [],
 }
 
@@ -51,7 +54,11 @@ export default {
       this.loading = true
       this.searched = false
 
-      const measures = await api.measure.search({ text: this.text })
+      const measureApi = new api.Measure()
+
+      measureApi.on('count', num => (this.total += num))
+
+      const measures = await measureApi.search({ text: this.text })
       this.results = measures
 
       this.loading = false

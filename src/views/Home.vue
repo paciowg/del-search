@@ -30,29 +30,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { R4 } from '@Ahryman40k/ts-fhir-types'
-
+<script>
 import api from '@/api'
 
-interface IData {
-  text: string
-  searched: boolean
-  loading: boolean
-  results: Array<R4.IMeasure>
-}
-
 // Using a global will persist the object across routes.
-const DATA: IData = {
+const DATA = {
   text: '',
   searched: false,
   loading: false,
-  results: []
+  results: [],
 }
 
-export default Vue.extend({
-  data (): IData {
+export default {
+  data () {
     return DATA
   },
 
@@ -66,7 +56,7 @@ export default Vue.extend({
 
       this.loading = false
       this.searched = true
-    }
-  }
-})
+    },
+  },
+}
 </script>

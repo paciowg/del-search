@@ -9,6 +9,6 @@ Vue.use(Router)
 export default new Router({
   routes: [
     { path: '/', name: 'home', component: Home },
-    { path: '/:id', name: 'detail', component: Detail, props: true }
-  ]
+    { path: '/:id', name: 'detail', component: Detail, props: true },
+  ],
 })

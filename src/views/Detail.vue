@@ -44,31 +44,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script >
 import groupBy from 'lodash.groupby'
-import { R4 } from '@Ahryman40k/ts-fhir-types'
 
 import api from '@/api'
 
-interface IAnswerSets {
-  [questionnaire: string]: Array<R4.IRelatedArtifact>
-}
-
-interface IData {
-  measure: R4.IMeasure | null
-  answerSets: IAnswerSets | null
-}
-
-export default Vue.extend({
+export default {
   props: {
-    id: { type: String, required: true }
+    id: { type: String, required: true },
   },
 
-  data (): IData {
+  data () {
     return {
       measure: null,
-      answerSets: null
+      answerSets: null,
     }
   },
 
@@ -77,12 +66,12 @@ export default Vue.extend({
   },
 
   methods: {
-    titleCase (str: string): string {
-      const words = str
+    titleCase (str) {
+      return str
         .toLowerCase()
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      return words.join(' ')
+        .join(' ')
     },
 
     async getMeasure () {
@@ -99,7 +88,7 @@ export default Vue.extend({
       if (validArtifacts.length) {
         this.answerSets = groupBy(validArtifacts, 'resource')
       }
-    }
-  }
-})
+    },
+  },
+}
 </script>

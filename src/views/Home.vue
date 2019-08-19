@@ -53,6 +53,7 @@ export default {
     async formSubmit () {
       this.loading = true
       this.searched = false
+      this.total = 0
 
       const measureApi = new api.Measure()
 

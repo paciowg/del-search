@@ -3,7 +3,7 @@
     <header class="bg-blue-700 text-white text-xl p-3">
       <h1>DEL FHIR Search</h1>
     </header>
-    <div>
+    <div class="max-w-5xl mx-auto">
       <router-view />
     </div>
   </div>
@@ -16,14 +16,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-}
-
 section,
 form {
   @apply m-4;
 }
 
+form label:not(:last-child),
 form input:not(:last-child),
 form button:not(:last-child) {
   @apply mr-2;
@@ -43,12 +41,30 @@ button.button:disabled {
   @apply cursor-not-allowed;
 }
 
-@keyframes lds-roller {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+a {
+  @apply text-blue-800;
+}
+
+a:hover {
+  @apply underline;
+}
+
+table {
+  @apply w-full;
+}
+
+table,
+td,
+th {
+  @apply border border-gray-400 border-collapse align-top;
+}
+
+td,
+th {
+  @apply py-1 px-2 text-left;
+}
+
+th {
+  @apply bg-gray-300 whitespace-no-wrap;
 }
 </style>

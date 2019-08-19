@@ -4,7 +4,7 @@ import { R4 } from '@Ahryman40k/ts-fhir-types'
 const FHIR_URL = process.env.FHIR_URL || 'https://api.logicahealth.org/PACIO/open/'
 
 interface ISearchParams {
-    text: string
+  text: string
 }
 
 const measure = {
@@ -21,6 +21,12 @@ const measure = {
     }
 
     return []
+  },
+
+  async getById (id: string): Promise<R4.IMeasure> {
+    // Probably need to catch an error here if the resource is not found.
+    const response = await Axios.get(`${FHIR_URL}/Measure/${id}`)
+    return response.data
   }
 }
 

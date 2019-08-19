@@ -1,7 +1,8 @@
 <template>
   <div>
-    <form @submit.prevent="formSubmit">
-      <input v-model="text" class="input" type="text" placeholder="Search..." />
+    <form @submit.prevent="formSubmit" class="text-center">
+      <label for="search-text-input" class="block tablet:inline">Search by ID or Text:</label>
+      <input id="search-text-input" v-model="text" class="input" type="text" />
       <button type="submit" class="button" :disabled="loading">
         <template v-if="loading">
           <i class="fas fa-spinner fa-spin"></i>
@@ -10,19 +11,22 @@
       </button>
     </form>
 
-    <section v-if="searched && results.length === 0">No results found.</section>
-
-    <section v-for="result in results" :key="result.id">
-      <h2 class="text-lg font-bold">{{ result.id }}: {{ result.title }}</h2>
-      <p>{{ result.description }}</p>
-
-      <blockquote>
-        <section v-for="answer in result.relatedArtifact" :key="`${answer.resource}--${answer.label}`">
-          <span class="font-bold">{{ answer.resource }}:</span>
-          {{ answer.label }} - {{ answer.display }}
-        </section>
-      </blockquote>
+    <section v-if="searched && results.length">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+        </tr>
+        <tr v-for="measure in results" :key="measure.id">
+          <td class="whitespace-no-wrap">
+            <router-link :to="{ name: 'detail', params: { id: measure.id }}">{{ measure.id }}</router-link>
+          </td>
+          <td>{{ measure.title }}</td>
+        </tr>
+      </table>
     </section>
+
+    <section v-if="searched && !results.length" class="text-center">No results found.</section>
   </div>
 </template>
 
@@ -39,14 +43,17 @@ interface IData {
   results: Array<R4.IMeasure>
 }
 
+// Using a global will persist the object across routes.
+const DATA: IData = {
+  text: '',
+  searched: false,
+  loading: false,
+  results: []
+}
+
 export default Vue.extend({
   data (): IData {
-    return {
-      text: '',
-      searched: false,
-      loading: false,
-      results: []
-    }
+    return DATA
   },
 
   methods: {
@@ -54,8 +61,8 @@ export default Vue.extend({
       this.loading = true
       this.searched = false
 
-      const response = await api.measure.search({ text: this.text })
-      this.results = response
+      const measures = await api.measure.search({ text: this.text })
+      this.results = measures
 
       this.loading = false
       this.searched = true

@@ -1,31 +1,54 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div>
+    <header class="bg-blue-700 text-white text-xl p-3">
+      <h1>DEL FHIR Search</h1>
+    </header>
+    <div>
+      <router-view />
     </div>
-    <router-view/>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
+<style lang="css" src="@fortawesome/fontawesome-free/css/all.css"></style>
+
+<style lang="css">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+section,
+form {
+  @apply m-4;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+form input:not(:last-child),
+form button:not(:last-child) {
+  @apply mr-2;
+}
+
+input.input {
+  @apply border border-gray-400 px-1 py-1 rounded;
+}
+
+input.buttton,
+button.button {
+  @apply text-white bg-blue-700 px-4 py-1 rounded;
+}
+
+input.button:disabled,
+button.button:disabled {
+  @apply cursor-not-allowed;
+}
+
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

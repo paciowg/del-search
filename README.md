@@ -1,35 +1,35 @@
 # DEL FHIR Search
 
-## Project setup
+Example project to search a DEL FHIR server.
+
+## Install dependencies
 
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+## Run in development mode
 
 ```
 yarn run serve
 ```
 
-### Compiles and minifies for production
+Then you can access the project at:
+
+http://localhost:8080/del-search#/
+
+## Compiles for production
 
 ```
 yarn run build
 ```
 
-### Run your tests
+This buils for production in the `docs/` folder
 
-```
-yarn run test
-```
+## Serve in production
 
-### Lints and fixes files
+When uploaded to GitHub, this will serve the static files from the `docs/` folder as GitHub Pages.
 
-```
-yarn run lint
-```
+This is accessible here:
 
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://paciowg.github.io/del-search/

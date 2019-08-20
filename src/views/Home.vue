@@ -3,7 +3,7 @@
     <form @submit.prevent="formSubmit" class="text-center">
       <label for="search-text-input" class="block tablet:inline">Search by ID or Text:</label>
       <input id="search-text-input" v-model="text" class="input" type="text" />
-      <button type="submit" class="button" :disabled="loading">
+      <button type="submit" class="button w-24" :disabled="loading">
         <template v-if="loading">
           <i class="fas fa-spinner fa-spin"></i>
         </template>
@@ -51,6 +51,10 @@ export default {
 
   methods: {
     async formSubmit () {
+      if (this.loading) {
+        return
+      }
+
       this.loading = true
       this.searched = false
       this.total = 0

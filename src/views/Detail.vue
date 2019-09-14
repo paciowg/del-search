@@ -36,7 +36,13 @@
           </tr>
           <tr v-for="answer in answers" :key="answer.label">
             <td class="w-32">{{ answer.label }}</td>
-            <td>{{ answer.display }}</td>
+            <td>
+              {{ answer.display }}
+              <span v-if="answer.url">
+                <br />
+                <a :href="answer.url" target="loinc">{{ answer.url }}</a>
+              </span>
+            </td>
           </tr>
         </table>
       </section>

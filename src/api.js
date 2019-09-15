@@ -20,13 +20,6 @@ const CACHE = {
   },
 };
 
-
-// function getValidArtifacts(measure) {
-//   const validArtifacts = (measure.relatedArtifact || []).filter(a => a.type === 'documentation' && a.resource && a.resource.startsWith('Library/Questionnaire'));
-//   return groupBy(validArtifacts, 'resource');
-// }
-
-
 class Api {
   constructor(resourceType, transformer) {
     this.resourceType = resourceType;
@@ -98,11 +91,6 @@ class Api {
     return resource;
   }
 }
-
-// function getValidArtifacts(relatedArtifacts) {
-//
-//
-// }
 
 const API = {
   library: new Api('Library', async (resource) => ({

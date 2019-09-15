@@ -1,47 +1,52 @@
 <template>
   <div>
     <section>
-      <router-link :to="{name:'home'}">
+      <router-link :to="{name:'search'}">
         <i class="fas fa-chevron-left"></i>
         Back to Search
       </router-link>
     </section>
-    <section v-if="measure">
-      <table>
-        <tr>
-          <th>Item ID</th>
-          <td>{{ measure.id }}</td>
-        </tr>
-        <tr>
-          <th>Short Name</th>
-          <td>{{ measure.title }}</td>
-        </tr>
-        <tr>
-          <th>Text</th>
-          <td>{{ measure.description }}</td>
-        </tr>
-        <tr>
-          <th>Status</th>
-          <td>{{ titleCase(measure.status) }}</td>
-        </tr>
-      </table>
+
+    <section v-if="loading" class="text-center">
+      <i class="text-gray-500 fas fa-spinner fa-spin fa-4x"></i>
     </section>
-    <template v-if="answerSets">
-      <section v-for="(answers, questionnaire) in answerSets" :key="questionnaire">
-        <h2 class="text-lg font-bold">{{ questionnaire }}</h2>
+
+    <template v-else>
+      <section>
         <table>
           <tr>
-            <th>Label</th>
-            <th>Display</th>
+            <th class="w-32">Item ID</th>
+            <td>{{ measure.id }}</td>
           </tr>
-          <tr v-for="answer in answers" :key="answer.label">
+          <tr>
+            <th>Short Name</th>
+            <td>{{ measure.title }}</td>
+          </tr>
+          <tr>
+            <th>Text</th>
+            <td>{{ measure.description }}</td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td>{{ measure.status | startCase }}</td>
+          </tr>
+        </table>
+      </section>
+      <section v-for="(set) in measure.answerSets" :key="set.library.id">
+        <h2
+          class="text-lg font-bold"
+        >{{ set.library.name }} {{ set.library.version }} ({{ set.library.status | startCase }})</h2>
+        <table>
+          <tr>
+            <th class="w-48">Label</th>
+            <th>Display</th>
+            <th class="w-64">LOINC</th>
+          </tr>
+          <tr v-for="answer in set.answers" :key="answer.label">
             <td class="w-32">{{ answer.label }}</td>
+            <td>{{ answer.display }}</td>
             <td>
-              {{ answer.display }}
-              <span v-if="answer.url">
-                <br />
-                <a :href="answer.url" target="loinc">{{ answer.url }}</a>
-              </span>
+              <a v-if="answer.url" :href="answer.url" target="loinc">{{ answer.url }}</a>
             </td>
           </tr>
         </table>
@@ -50,52 +55,40 @@
   </div>
 </template>
 
-<script >
-import groupBy from 'lodash.groupby'
+<script>
+import startCase from 'lodash.startcase';
 
-import api from '@/api'
+import api from '@/api';
 
 export default {
   props: {
     id: { type: String, required: true },
   },
 
-  data () {
+  data() {
     return {
+      loading: true,
       measure: null,
-      answerSets: null,
-    }
+    };
   },
 
-  async created () {
-    await this.getMeasure()
+  async created() {
+    await this.getMeasure();
+  },
+
+  filters: {
+    startCase,
   },
 
   methods: {
-    titleCase (str) {
-      return str
-        .toLowerCase()
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-    },
+    async getMeasure() {
+      this.loading = true;
 
-    async getMeasure () {
-      const measureApi = new api.Measure()
-      const measure = await measureApi.getById(this.id)
-      this.measure = measure
+      const measure = await api.measure.getById(this.id);
+      this.measure = measure;
 
-      // Find all relatedArtifact objects with type of 'documentation'
-      // and resource startswith 'Library/Questionnaire'.
-      // Tansform them into the 'answerSets' object where the key is the
-      // questionnaire ID and the value is a list of possible answers.
-      const validArtifacts = (this.measure.relatedArtifact || []).filter(a => {
-        return a.type === 'documentation' && a.resource && a.resource.startsWith('Library/Questionnaire')
-      })
-      if (validArtifacts.length) {
-        this.answerSets = groupBy(validArtifacts, 'resource')
-      }
+      this.loading = false;
     },
   },
-}
+};
 </script>

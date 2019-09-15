@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+section,
+form {
+  @apply m-4;
+}
+
+form label:not(:last-child),
+form input:not(:last-child),
+form select:not(:last-child),
+form button:not(:last-child) {
+  @apply mr-2;
+}
+
+input[type="text"],
+select {
+  @apply border border-gray-400 px-2 py-1 rounded appearance-none;
+  /* block on mobile */
+  @apply block w-full mb-3;
+}
+
+select {
+  @apply pr-6;
+}
+
+/* inline on tablet and desktop */
+@screen tablet {
+  input[type="text"],
+  select {
+    @apply inline w-auto mb-0;
+  }
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 0.5rem;
+  -webkit-appearance: none;
+}
+
+button[type="submit"] {
+  @apply text-white bg-blue-700 px-4 py-1 rounded;
+}
+
+button[type="submit"]:disabled {
+  @apply cursor-not-allowed;
+}
+
+a {
+  @apply text-blue-800;
+}
+
+a:hover {
+  @apply underline;
+}
+
+table {
+  @apply w-full;
+}
+
+table,
+td,
+th {
+  @apply border border-gray-400 border-collapse align-top;
+}
+
+td,
+th {
+  @apply py-1 px-2 text-left;
+}
+
+th {
+  @apply bg-gray-300 whitespace-no-wrap;
+}
